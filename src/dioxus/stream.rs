@@ -83,13 +83,6 @@ where
     value.read().unwrap()
 }
 
-async fn top_stream(
-    count: usize,
-    analyzed_only: bool,
-) -> impl Stream<Item = Vec<Data>> + Send + 'static {
-    HighestStream::new(get_files_stream(analyzed_only).await, count)
-}
-
 pub fn use_last_stream_value<'a, Arg, T, F, S, P>(
     cx: &'a Scope<P>,
     arg: Arg,
