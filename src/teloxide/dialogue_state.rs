@@ -5,7 +5,7 @@ use std::{
 };
 
 use async_lock::{Semaphore, SemaphoreGuardArc};
-use common::state::DialogueState;
+
 use dashmap::DashMap;
 use once_cell::sync::Lazy;
 use parking_lot::Mutex;
@@ -18,19 +18,19 @@ use teloxide::{
 
 static EXCLUSIONS: Lazy<DashMap<ChatId, Arc<async_lock::Semaphore>>> = Lazy::new(DashMap::new);
 
-type TeloDialogue = Dialogue<DialogueState, SqliteStorage<Json>>;
+type TeloDialogue<T> = Dialogue<T, SqliteStorage<Json>>;
 
 #[derive(Clone)]
-pub struct MutDialogueState {
+pub struct MutDialogueState<T> {
     chat_id: ChatId,
     telodial: TeloDialogue,
-    state: ManuallyDrop<Arc<(SemaphoreGuardArc, Mutex<DialogueState>)>>,
+    state: ManuallyDrop<Arc<(SemaphoreGuardArc, Mutex<T>)>>,
 }
 
 // unsafe impl Send for MutDialogueState {}
 // unsafe impl Sync for MutDialogueState {}
 
-impl MutDialogueState {
+impl<T> MutDialogueState<T> {
     pub async fn new(update: Update, telodial: TeloDialogue) -> Option<Self> {
         let chat_id = update.chat_id()?;
 
@@ -66,16 +66,16 @@ impl MutDialogueState {
         self.chat_id
     }
 
-    pub fn get(&self) -> impl Deref<Target = DialogueState> + Debug + Send + Sync + '_ {
+    pub fn get(&self) -> impl Deref<Target = T> + Debug + Send + Sync + '_ {
         self.state.1.lock()
     }
 
-    pub fn as_mut(&self) -> impl DerefMut<Target = DialogueState> + Send + Sync + '_ {
+    pub fn as_mut(&self) -> impl DerefMut<Target = T> + Send + Sync + '_ {
         self.state.1.lock()
     }
 }
 
-impl Drop for MutDialogueState {
+impl<T> Drop for MutDialogueState<T> {
     fn drop(&mut self) {
         let arc = unsafe { ManuallyDrop::take(&mut self.state) };
         let Some((guard, mutex)) = Arc::into_inner(arc) else {

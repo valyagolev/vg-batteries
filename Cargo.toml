@@ -7,3 +7,32 @@
     # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+    tokio = { version = "*", features = [
+        "time",
+        "io-util",
+        "rt",
+        "process",
+        "sync",
+    ], optional = true }
+    teloxide = { version = "*", features = ["sqlite-storage"], optional = true }
+    serde_json = { version = "*" }
+    anyhow = { version = "*" }
+    once_cell = { version = "*" }
+    dashmap = { version = "*", optional = true }
+    parking_lot = { version = "*", optional = true }
+    async-lock = { version = "*", optional = true }
+
+[features]
+    default = ["gpt", "streams"]
+    teloxide = [
+        "dep:teloxide",
+        "dep:dashmap",
+        "dep:parking_lot",
+        "dep:async-lock",
+    ]
+    dioxus = []
+    google = []
+    gpt = []
+    json = []
+    process = ["dep:tokio"]
+    streams = []
