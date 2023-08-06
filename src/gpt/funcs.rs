@@ -2,7 +2,7 @@ use std::collections::HashMap;
 
 use anyhow::{Ok, Result};
 use once_cell::sync::Lazy;
-use serde::{Serialize};
+use serde::Serialize;
 use serde_json::{json, Value};
 
 static OPENAI_CLIENT: Lazy<reqwest::Client> = Lazy::new(|| {
@@ -182,19 +182,6 @@ pub async fn ai_query(
     match value {
         Some(value) => Ok(AiResp::Text(value)),
         None => Ok(AiResp::Weird(resp)),
-    }
-}
-
-fn merge(a: &mut Value, b: &Value) {
-    match (a, b) {
-        (&mut Value::Object(ref mut a), Value::Object(b)) => {
-            for (k, v) in b {
-                merge(a.entry(k.clone()).or_insert(Value::Null), v);
-            }
-        }
-        (a, b) => {
-            *a = b.clone();
-        }
     }
 }
 
