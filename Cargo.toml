@@ -9,8 +9,8 @@
     documentation = "https://docs.rs/vg-batteries"
 
 [dependencies]
-    reqwest = { version = "*", features = ["json"], optional = true }
-    tokio = { version = "*", features = [
+    reqwest = { version = "0", features = ["json"], optional = true }
+    tokio = { version = "1", features = [
         "time",
         "io-util",
         "rt",
@@ -18,19 +18,19 @@
         "sync",
         "macros",
     ], optional = true }
-    teloxide = { version = "*", features = ["sqlite-storage"], optional = true }
-    serde = { version = "*", features = ["derive"], optional = true }
-    serde_json = { version = "*" }
-    anyhow = { version = "*" }
-    once_cell = { version = "*" }
-    dashmap = { version = "*", optional = true }
-    parking_lot = { version = "*", optional = true, features = ["send_guard"] }
-    async-lock = { version = "*", optional = true }
-    pin-project = { version = "*", optional = true }
-    futures = { version = "*", optional = true }
-    google-sheets4 = { version = "*", optional = true }
-    url = { version = "*", optional = true }
-    dioxus = { version = "*", optional = true }
+    teloxide = { version = "0", features = ["sqlite-storage"], optional = true }
+    serde = { version = "1", features = ["derive"], optional = true }
+    serde_json = { version = "1" }
+    anyhow = { version = "1" }
+    once_cell = { version = "1" }
+    dashmap = { version = "5", optional = true }
+    parking_lot = { version = "0", optional = true, features = ["send_guard"] }
+    async-lock = { version = "2", optional = true }
+    pin-project = { version = "1", optional = true }
+    futures = { version = "0", optional = true }
+    google-sheets4 = { version = "5", optional = true }
+    url = { version = "2", optional = true }
+    dioxus = { version = "0", optional = true }
 
 
 [features]

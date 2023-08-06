@@ -1,7 +1,7 @@
 use std::{process::Stdio, sync::Arc};
 
 use tokio::{
-    io::{AsyncBufReadExt, AsyncRead, AsyncReadExt, BufReader},
+    io::{AsyncBufReadExt, AsyncRead, BufReader},
     process::{Child, Command},
     sync::Mutex,
 };
