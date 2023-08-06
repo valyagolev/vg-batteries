@@ -1,6 +1,6 @@
 use futures::stream::Stream;
 
-use futures_lite::StreamExt;
+// use futures_lite::StreamExt;
 use pin_project::pin_project;
 use std::cmp::Reverse;
 use std::collections::BinaryHeap;

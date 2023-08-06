@@ -11,7 +11,7 @@ use once_cell::sync::Lazy;
 use parking_lot::Mutex;
 use std::fmt::Debug;
 use teloxide::{
-    dispatching::dialogue::{serializer::Json, GetChatId, SqliteStorage},
+    dispatching::dialogue::{serializer::Json, GetChatId, SqliteStorage, Storage},
     prelude::Dialogue,
     types::{ChatId, Update},
 };
@@ -21,17 +21,24 @@ static EXCLUSIONS: Lazy<DashMap<ChatId, Arc<async_lock::Semaphore>>> = Lazy::new
 type TeloDialogue<T> = Dialogue<T, SqliteStorage<Json>>;
 
 #[derive(Clone)]
-pub struct MutDialogueState<T> {
+pub struct MutDialogueState<T>
+where
+    T: Send + Sync + Clone + 'static + Default + Debug,
+    SqliteStorage<Json>: Storage<T>,
+    <SqliteStorage<Json> as Storage<T>>::Error: std::fmt::Display,
+{
     chat_id: ChatId,
-    telodial: TeloDialogue,
+    telodial: TeloDialogue<T>,
     state: ManuallyDrop<Arc<(SemaphoreGuardArc, Mutex<T>)>>,
 }
 
-// unsafe impl Send for MutDialogueState {}
-// unsafe impl Sync for MutDialogueState {}
-
-impl<T> MutDialogueState<T> {
-    pub async fn new(update: Update, telodial: TeloDialogue) -> Option<Self> {
+impl<T> MutDialogueState<T>
+where
+    T: Send + Sync + Clone + 'static + Default + Debug,
+    SqliteStorage<Json>: Storage<T>,
+    <SqliteStorage<Json> as Storage<T>>::Error: std::fmt::Display,
+{
+    pub async fn new(update: Update, telodial: TeloDialogue<T>) -> Option<Self> {
         let chat_id = update.chat_id()?;
 
         let excl = EXCLUSIONS
@@ -75,7 +82,12 @@ impl<T> MutDialogueState<T> {
     }
 }
 
-impl<T> Drop for MutDialogueState<T> {
+impl<T> Drop for MutDialogueState<T>
+where
+    T: Send + Sync + Clone + 'static + Default + Debug,
+    SqliteStorage<Json>: Storage<T>,
+    <SqliteStorage<Json> as Storage<T>>::Error: std::fmt::Display,
+{
     fn drop(&mut self) {
         let arc = unsafe { ManuallyDrop::take(&mut self.state) };
         let Some((guard, mutex)) = Arc::into_inner(arc) else {
