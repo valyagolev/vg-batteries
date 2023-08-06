@@ -1,4 +1,4 @@
-use serde_json::{Map, Value};
+use serde_json::{Value};
 
 fn merge(a: &mut Value, b: Value) {
     match (a, b) {
