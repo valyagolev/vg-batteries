@@ -6,7 +6,7 @@ use futures::{Future, Stream, StreamExt};
 
 use tokio::sync::{oneshot, watch};
 
-use crate::streams::highest_stream::HighestStream;
+
 
 use super::periodic::SendOnDrop;
 

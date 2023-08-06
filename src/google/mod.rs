@@ -36,7 +36,7 @@ impl GoogleAuth {
         params.insert("access_type".to_string(), "offline".to_string());
         params.insert("prompt".to_string(), "consent".to_string());
 
-        url.query_pairs_mut().extend_pairs(params.into_iter());
+        url.query_pairs_mut().extend_pairs(params);
 
         Ok(url)
     }

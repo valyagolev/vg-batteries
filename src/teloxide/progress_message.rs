@@ -1,7 +1,7 @@
-use std::{sync::Arc, thread::JoinHandle, time::Duration};
+use std::{sync::Arc, time::Duration};
 
 use teloxide::{
-    requests::{JsonRequest, Request, Requester},
+    requests::{JsonRequest, Request},
     Bot,
 };
 use tokio::{sync::Mutex, time::Instant};
@@ -28,7 +28,6 @@ async fn updater_future(wait_for: Instant, schedule: Arc<Mutex<ScheduleStatus>>)
 
     match &mut *schedule {
         ScheduleStatus::LastUpdate(_) => {
-            return;
         }
         ScheduleStatus::NeedsUpdate(bot, update) => {
             JsonRequest::new(bot.clone(), update.clone())
@@ -82,7 +81,7 @@ impl ProgressMessage {
 
     pub async fn append(&mut self, new_text: &str) {
         let mut text = self.edit_payload.text.clone();
-        text.push_str(&new_text);
+        text.push_str(new_text);
         self.update(&text).await;
     }
 

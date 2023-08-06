@@ -2,7 +2,7 @@ use std::collections::HashMap;
 
 use anyhow::{Ok, Result};
 use once_cell::sync::Lazy;
-use serde::{Deserialize, Serialize};
+use serde::{Serialize};
 use serde_json::{json, Value};
 
 static OPENAI_CLIENT: Lazy<reqwest::Client> = Lazy::new(|| {
@@ -41,12 +41,12 @@ pub struct Type<'a> {
     pub required: bool,
 }
 
-impl<'a> Into<Value> for Type<'a> {
-    fn into(self) -> Value {
+impl<'a> From<Type<'a>> for Value {
+    fn from(val: Type<'a>) -> Self {
         let mut v = json!({
-            "type": self.name,
+            "type": val.name,
         });
-        if let Some(variants) = self.variants {
+        if let Some(variants) = val.variants {
             v["enum"] = json!(variants);
         };
         v
@@ -61,11 +61,11 @@ pub struct Function<'a> {
     pub parameters: &'a [(&'a str, Type<'a>)],
 }
 
-impl<'a> Into<Value> for Function<'a> {
-    fn into(self) -> Value {
-        let mut v = json!({
-            "name": self.name,
-            "description": self.description,
+impl<'a> From<Function<'a>> for Value {
+    fn from(val: Function<'a>) -> Self {
+        let v = json!({
+            "name": val.name,
+            "description": val.description,
             "parameters": {
                 "type": "object",
                 "required": vec!["todos", "any_or_all"],
@@ -75,8 +75,8 @@ impl<'a> Into<Value> for Function<'a> {
                         "minContains": 1,
                         "items": {
                             "type": "object",
-                            "required": self.parameters.iter().filter(|x| x.1.required).map(|x| x.0).collect::<Vec<_>>(),
-                            "properties": self.parameters.into_iter().cloned().collect::<HashMap<_, _>>(),
+                            "required": val.parameters.iter().filter(|x| x.1.required).map(|x| x.0).collect::<Vec<_>>(),
+                            "properties": val.parameters.iter().cloned().collect::<HashMap<_, _>>(),
                         }
                     },
                     "any_or_all": {
