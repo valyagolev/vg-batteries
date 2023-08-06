@@ -16,6 +16,7 @@
         "sync",
     ], optional = true }
     teloxide = { version = "*", features = ["sqlite-storage"], optional = true }
+    serde = { version = "*", features = ["derive"], optional = true }
     serde_json = { version = "*" }
     anyhow = { version = "*" }
     once_cell = { version = "*" }
@@ -36,7 +37,7 @@
     ]
     dioxus = []
     google = []
-    gpt = ["dep:reqwest"]
+    gpt = ["dep:reqwest", "dep:serde"]
     json = []
     process = ["dep:tokio"]
     streams = ["dep:pin-project", "dep:futures"]

@@ -99,12 +99,12 @@ pub enum AiResp {
 }
 
 pub async fn ai_query(
-    // api_base: &str,
+    api_base: &str,
     system: &str,
     user: &str, //, etc: Option<Value>
     functions: &[&Function<'_>],
 ) -> Result<AiResp> {
-    let api_base = API_BASE;
+    // let api_base = API_BASE;
 
     let query = json!({
         // "model": "text-davinci-003".to_string(),
