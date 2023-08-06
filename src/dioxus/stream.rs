@@ -7,11 +7,10 @@ use futures::{Future, Stream, StreamExt};
 use tokio::sync::{oneshot, watch};
 
 use crate::{
-    data::{get_files_stream, Data},
-    highest_stream::HighestStream,
+    streams::highest_stream::HighestStream,
 };
 
-use super::periodic_update::SendOnDrop;
+use super::periodic::SendOnDrop;
 
 pub async fn cancellable<T>(
     kill: oneshot::Receiver<()>,

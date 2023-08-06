@@ -25,6 +25,9 @@
     async-lock = { version = "*", optional = true }
     pin-project = { version = "*", optional = true }
     futures = { version = "*", optional = true }
+    google-sheets4 = { version = "*", optional = true }
+    url = { version = "*", optional = true }
+    dioxus = { version = "*", optional = true }
 
 
 [features]
@@ -35,8 +38,8 @@
         "dep:parking_lot",
         "dep:async-lock",
     ]
-    dioxus = []
-    google = []
+    dioxus = ["dep:dioxus"]
+    google = ["dep:google-sheets4", "dep:url"]
     gpt = ["dep:reqwest", "dep:serde"]
     json = []
     process = ["dep:tokio"]
