@@ -1,10 +1,12 @@
 [package]
-    name    = "vg-batteries"
-    version = "0.1.0"
-    edition = "2021"
-    license = "MIT OR Apache-2.0"
-
-    # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+    name          = "vg-batteries"
+    version       = "0.1.0"
+    edition       = "2021"
+    license       = "MIT OR Apache-2.0"
+    repository    = "https://github.com/valyagolev/vg-batteries"
+    homepage      = "https://github.com/valyagolev/vg-batteries"
+    description   = "glimpse into my personal madness"
+    documentation = "https://docs.rs/vg-batteries"
 
 [dependencies]
     reqwest = { version = "*", features = ["json"], optional = true }
