@@ -1,0 +1,34 @@
+name: Rust Tests
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        feature: ["default", "teloxide", "dioxus", "google", "gpt", "json", "process", "streams"]
+
+    steps:
+    - name: Check out the code
+      uses: actions/checkout@v2
+
+    - name: Install Rust nightly
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: nightly
+        override: true
+
+    - name: Build with feature ${{ matrix.feature }}
+      run: cargo build --verbose --features ${{ matrix.feature }}
+
+    - name: Run tests with feature ${{ matrix.feature }}
+      run: cargo test --verbose --features ${{ matrix.feature }}
