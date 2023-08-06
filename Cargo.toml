@@ -14,6 +14,7 @@
         "rt",
         "process",
         "sync",
+        "macros",
     ], optional = true }
     teloxide = { version = "*", features = ["sqlite-storage"], optional = true }
     serde = { version = "*", features = ["derive"], optional = true }
@@ -37,8 +38,9 @@
         "dep:dashmap",
         "dep:parking_lot",
         "dep:async-lock",
+        "dep:tokio",
     ]
-    dioxus = ["dep:dioxus"]
+    dioxus = ["dep:dioxus", "dep:tokio", "dep:futures", "dep:parking_lot"]
     google = ["dep:google-sheets4", "dep:url"]
     gpt = ["dep:reqwest", "dep:serde"]
     json = []
