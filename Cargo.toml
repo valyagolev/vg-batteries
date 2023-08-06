@@ -1,6 +1,6 @@
 [package]
     name          = "vg-batteries"
-    version       = "0.1.1"
+    version       = "0.1.2"
     edition       = "2021"
     license       = "MIT OR Apache-2.0"
     repository    = "https://github.com/valyagolev/vg-batteries"
@@ -31,7 +31,7 @@
     google-sheets4 = { version = "5", optional = true }
     url = { version = "2", optional = true }
     dioxus = { version = "0", optional = true }
-
+    rust-bert = { version = "0", optional = true }
 
 [features]
     default = []
@@ -48,6 +48,8 @@
     json = []
     process = ["dep:tokio"]
     streams = ["dep:pin-project", "dep:futures"]
+    vector_embeddings = ["dep:rust-bert", "dep:tokio"]
+
 
 [package.metadata.docs.rs]
     all-features = true

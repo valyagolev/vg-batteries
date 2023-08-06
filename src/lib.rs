@@ -29,3 +29,7 @@ pub mod streams;
 #[cfg(feature = "teloxide")]
 #[doc(cfg(teloxide))]
 pub mod teloxide;
+
+#[cfg(feature = "vector_embeddings")]
+#[doc(cfg(vector_embeddings))]
+pub mod vector_embeddings;
