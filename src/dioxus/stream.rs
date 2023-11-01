@@ -6,8 +6,6 @@ use futures::{Future, Stream, StreamExt};
 
 use tokio::sync::{oneshot, watch};
 
-
-
 use super::periodic::SendOnDrop;
 
 pub async fn cancellable<T>(

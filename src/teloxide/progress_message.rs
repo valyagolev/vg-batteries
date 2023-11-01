@@ -27,8 +27,7 @@ async fn updater_future(wait_for: Instant, schedule: Arc<Mutex<ScheduleStatus>>)
     let mut schedule = schedule.lock().await;
 
     match &mut *schedule {
-        ScheduleStatus::LastUpdate(_) => {
-        }
+        ScheduleStatus::LastUpdate(_) => {}
         ScheduleStatus::NeedsUpdate(bot, update) => {
             JsonRequest::new(bot.clone(), update.clone())
                 .send()
