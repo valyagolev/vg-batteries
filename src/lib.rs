@@ -33,3 +33,9 @@ pub mod teloxide;
 #[cfg(feature = "vector_embeddings")]
 #[doc(cfg(vector_embeddings))]
 pub mod vector_embeddings;
+
+#[cfg(feature = "ggez")]
+#[doc(cfg(vector_embeddings))]
+pub mod ggez;
+
+pub mod typelevel;

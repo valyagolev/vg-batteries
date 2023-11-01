@@ -32,6 +32,9 @@
     url = { version = "2", optional = true }
     dioxus = { version = "0", optional = true }
     rust-bert = { version = "0", optional = true }
+    ggegui = { version = "0.3", optional = true }
+    ggez = { version = "0.9", optional = true }
+    circular-buffer = { version = "0.1", optional = true }
 
 [features]
     default = []
@@ -49,6 +52,7 @@
     process = ["dep:tokio"]
     streams = ["dep:pin-project", "dep:futures"]
     vector_embeddings = ["dep:rust-bert", "dep:tokio"]
+    ggez = ["dep:ggez", "dep:ggegui", "dep:circular-buffer"]
 
 
 [package.metadata.docs.rs]
